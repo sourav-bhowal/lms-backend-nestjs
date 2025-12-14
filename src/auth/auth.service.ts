@@ -41,7 +41,7 @@ export class AuthService {
     const payload = {
       sub: user._id,
       email: user.email,
-      name: user.name,
+      role: user.role,
     };
 
     // Sign the JWT token
@@ -72,7 +72,7 @@ export class AuthService {
     const payload = {
       sub: user._id,
       email: user.email,
-      name: user.name,
+      role: user.role,
     };
 
     const token = await this.jwtService.signAsync(payload);

@@ -2,8 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Document } from 'mongoose';
 import { UserRole } from './user.types';
 
-export type UserDocument = HydratedDocument<User>; // Define a type alias for User document
-
 // Define the User schema using decorators
 @Schema()
 export class User extends Document {
@@ -28,5 +26,7 @@ export class User extends Document {
   @Prop({ default: Date.now })
   updatedAt: Date; // Define a property 'updatedAt' of type Date with a default value of the current date
 }
+
+export type UserDocument = HydratedDocument<User>; // Define a type alias for User document
 
 export const UserSchema = SchemaFactory.createForClass(User); // Create a Mongoose schema from the User class

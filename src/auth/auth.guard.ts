@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { UserRole } from 'src/user/schemas/user.types';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -49,5 +50,5 @@ export class AuthGuard implements CanActivate {
 export interface JwtPayload {
   sub: string;
   email: string;
-  name: string;
+  role: UserRole;
 }

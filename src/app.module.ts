@@ -13,7 +13,16 @@ import { CourseModule } from './course/course.module';
   // Decorator (Module - It is a module class that is used to define the dependencies of the application)
   imports: [
     ConfigModule.forRoot(), // Environment variables
-    MongooseModule.forRoot(process.env.MONGO_DB_URL as string), // Database connection
+    MongooseModule.forRoot(process.env.MONGO_DB_URL as string, {
+      onConnectionCreate: (connection) => {
+        connection.on('connected', () => {
+          console.log('MongoDB connected');
+        });
+        connection.on('error', (err) => {
+          console.error('MongoDB connection error:', err);
+        });
+      },
+    }), // Database connection
     ThrottlerModule.forRoot({
       throttlers: [
         {
@@ -28,11 +37,12 @@ import { CourseModule } from './course/course.module';
   ], // Imports (It is a module class that is used to import other modules)
   controllers: [AppController], // Controllers (It is a controller class that is used to handle the incoming requests)
   providers: [
+    // Providers (It is a service class that is used to handle the business logic)
     AppService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
-  ], // Providers (It is a provider class that is used to provide data to the controller)
+  ],
 })
 export class AppModule {}
